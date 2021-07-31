@@ -1,0 +1,22 @@
+Existen ambos jugadores then
+	Existen partida activa then
+		
+	
+	conoce el juego que ya está activo then
+		
+	else
+
+else
+	
+
+start insertPartida			==> crea
+start partidas_activas 		==> reporte de partidas activas por jugador (requiere el nickname)
+start ini					==> establece como partida activa una partida ya existente (requiere el nickname de ambos y el número de partida)
+start insertJugadores		==> inserta jugador
+start mov					==> jugar (hacer movimientos)
+exec p_enroque_c			==> enroque corto del jugador activo
+exec p_enroque_l			==> enroque largo del jugador activo
+exec p_mate					==> jaque mate del jugador activo
+exec p_hist_partidas		==> histórico de partidas segun el nickname
+exec p_mov					==> movimientos del juego activo
+exec p_mov_his				==> movimientos del juego finalizados (que la tabla partidas la columna resultado tiene info)

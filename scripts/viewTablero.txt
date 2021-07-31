@@ -1,0 +1,293 @@
+SQL> start viewTablero
+SQL> 
+SQL> set lines 50
+SQL> set pages 100
+SQL> set linesize 100
+SQL> set serveroutput on
+SQL> --set verify OFF
+SQL> declare
+  2  	     -- declaracion de variables del tablaro
+  3  	     a1 fichas.sigla%type := '';
+  4  	     b1 fichas.sigla%type := '';
+  5  	     c1 fichas.sigla%type := '';
+  6  	     d1 fichas.sigla%type := '';
+  7  	     e1 fichas.sigla%type := '';
+  8  	     f1 fichas.sigla%type := '';
+  9  	     g1 fichas.sigla%type := '';
+ 10  	     h1 fichas.sigla%type := '';
+ 11  	     a2 fichas.sigla%type := '';
+ 12  	     b2 fichas.sigla%type := '';
+ 13  	     c2 fichas.sigla%type := '';
+ 14  	     d2 fichas.sigla%type := '';
+ 15  	     e2 fichas.sigla%type := '';
+ 16  	     f2 fichas.sigla%type := '';
+ 17  	     g2 fichas.sigla%type := '';
+ 18  	     h2 fichas.sigla%type := '';
+ 19  	     a3 fichas.sigla%type := '';
+ 20  	     b3 fichas.sigla%type := '';
+ 21  	     c3 fichas.sigla%type := '';
+ 22  	     d3 fichas.sigla%type := '';
+ 23  	     e3 fichas.sigla%type := '';
+ 24  	     f3 fichas.sigla%type := '';
+ 25  	     g3 fichas.sigla%type := '';
+ 26  	     h3 fichas.sigla%type := '';
+ 27  	     a4 fichas.sigla%type := '';
+ 28  	     b4 fichas.sigla%type := '';
+ 29  	     c4 fichas.sigla%type := '';
+ 30  	     d4 fichas.sigla%type := '';
+ 31  	     e4 fichas.sigla%type := '';
+ 32  	     f4 fichas.sigla%type := '';
+ 33  	     g4 fichas.sigla%type := '';
+ 34  	     h4 fichas.sigla%type := '';
+ 35  	     a5 fichas.sigla%type := '';
+ 36  	     b5 fichas.sigla%type := '';
+ 37  	     c5 fichas.sigla%type := '';
+ 38  	     d5 fichas.sigla%type := '';
+ 39  	     e5 fichas.sigla%type := '';
+ 40  	     f5 fichas.sigla%type := '';
+ 41  	     g5 fichas.sigla%type := '';
+ 42  	     h5 fichas.sigla%type := '';
+ 43  	     a6 fichas.sigla%type := '';
+ 44  	     b6 fichas.sigla%type := '';
+ 45  	     c6 fichas.sigla%type := '';
+ 46  	     d6 fichas.sigla%type := '';
+ 47  	     e6 fichas.sigla%type := '';
+ 48  	     f6 fichas.sigla%type := '';
+ 49  	     g6 fichas.sigla%type := '';
+ 50  	     h6 fichas.sigla%type := '';
+ 51  	     a7 fichas.sigla%type := '';
+ 52  	     b7 fichas.sigla%type := '';
+ 53  	     c7 fichas.sigla%type := '';
+ 54  	     d7 fichas.sigla%type := '';
+ 55  	     e7 fichas.sigla%type := '';
+ 56  	     f7 fichas.sigla%type := '';
+ 57  	     g7 fichas.sigla%type := '';
+ 58  	     h7 fichas.sigla%type := '';
+ 59  	     a8 fichas.sigla%type := '';
+ 60  	     b8 fichas.sigla%type := '';
+ 61  	     c8 fichas.sigla%type := '';
+ 62  	     d8 fichas.sigla%type := '';
+ 63  	     e8 fichas.sigla%type := '';
+ 64  	     f8 fichas.sigla%type := '';
+ 65  	     g8 fichas.sigla%type := '';
+ 66  	     h8 fichas.sigla%type := '';
+ 67  	     -- declaracion de otras variables
+ 68  	     num_partida partidas.id_partida%type;
+ 69  	     jugador1 varchar2(47);
+ 70  	     jugador2 varchar2(47);
+ 71  	     movimiento movimientos.id_movimiento%type;
+ 72  	     mueven varchar2(7);
+ 73  	     dumi varchar2(100);
+ 74  	     i number := 0;
+ 75  	     -- declaracion de las excepciones
+ 76  	     null_value exception;
+ 77  	     pragma exception_init(null_value, -6550);
+ 78  begin
+ 79  	     -- se carga el numero de partida
+ 80  	     select id_partida
+ 81  	     into num_partida
+ 82  	     from partida_activa;
+ 83  	     -- se carga el nombre del jugador 1
+ 84  	     select
+ 85  		     (b.nombre||' '||b.apellido1||' '||b.apellido2)
+ 86  	     into jugador1
+ 87  	     from partidas a
+ 88  	     join jugadores b on b.nickname = a.nickname1
+ 89  	     where a.id_partida = num_partida;
+ 90  	     -- se carga el nombre del jugador
+ 91  	     select
+ 92  		     (b.nombre||' '||b.apellido1||' '||b.apellido2)
+ 93  	     into jugador2
+ 94  	     from partidas a
+ 95  	     join jugadores b on b.nickname = a.nickname2
+ 96  	     where a.id_partida = num_partida;
+ 97  	     -- quien mueve
+ 98  	     select count(0)
+ 99  	     into movimiento
+100  	     from movimientos;
+101  	     if (mod(movimiento,2) = 0) then
+102  		     mueven := 'Blancas';
+103  	     else
+104  		     mueven := 'Negras';
+105  	     end if;
+106  	     -- se carga la partida
+107  	     declare
+108  		     -- creacion del cursor
+109  		     cursor c_coord_tab is
+110  		     select
+111  			     d.fila,
+112  			     d.col,
+113  			     d.coordenada,
+114  			     a.sigla
+115  		     from fichas a
+116  		     join estado_partidas b on b.id_ficha = a.id_ficha
+117  		     join coordenadas_tablero d on d.id_cord_tab = b.id_cord_tab
+118  		     where b.id_partida = num_partida
+119  		     order by d.fila, d.col;
+120  	     begin
+121  		     for cc in c_coord_tab loop
+122  		     if length(cc.coordenada) > 0 then i := i + 1;
+123  		     end if;
+124  		     case cc.coordenada
+125  			     when 'a1' then a1 := cc.sigla;
+126  			     when 'b1' then b1 := cc.sigla;
+127  			     when 'c1' then c1 := cc.sigla;
+128  			     when 'd1' then d1 := cc.sigla;
+129  			     when 'e1' then e1 := cc.sigla;
+130  			     when 'f1' then f1 := cc.sigla;
+131  			     when 'g1' then g1 := cc.sigla;
+132  			     when 'h1' then h1 := cc.sigla;
+133  			     when 'a2' then a2 := cc.sigla;
+134  			     when 'b2' then b2 := cc.sigla;
+135  			     when 'c2' then c2 := cc.sigla;
+136  			     when 'd2' then d2 := cc.sigla;
+137  			     when 'e2' then e2 := cc.sigla;
+138  			     when 'f2' then f2 := cc.sigla;
+139  			     when 'g2' then g2 := cc.sigla;
+140  			     when 'h2' then h2 := cc.sigla;
+141  			     when 'a3' then a3 := cc.sigla;
+142  			     when 'b3' then b3 := cc.sigla;
+143  			     when 'c3' then c3 := cc.sigla;
+144  			     when 'd3' then d3 := cc.sigla;
+145  			     when 'e3' then e3 := cc.sigla;
+146  			     when 'f3' then f3 := cc.sigla;
+147  			     when 'g3' then g3 := cc.sigla;
+148  			     when 'h3' then h3 := cc.sigla;
+149  			     when 'a4' then a4 := cc.sigla;
+150  			     when 'b4' then b4 := cc.sigla;
+151  			     when 'c4' then c4 := cc.sigla;
+152  			     when 'd4' then d4 := cc.sigla;
+153  			     when 'e4' then e4 := cc.sigla;
+154  			     when 'f4' then f4 := cc.sigla;
+155  			     when 'g4' then g4 := cc.sigla;
+156  			     when 'h4' then h4 := cc.sigla;
+157  			     when 'a5' then a5 := cc.sigla;
+158  			     when 'b5' then b5 := cc.sigla;
+159  			     when 'c5' then c5 := cc.sigla;
+160  			     when 'd5' then d5 := cc.sigla;
+161  			     when 'e5' then e5 := cc.sigla;
+162  			     when 'f5' then f5 := cc.sigla;
+163  			     when 'g5' then g5 := cc.sigla;
+164  			     when 'h5' then h5 := cc.sigla;
+165  			     when 'a6' then a6 := cc.sigla;
+166  			     when 'b6' then b6 := cc.sigla;
+167  			     when 'c6' then c6 := cc.sigla;
+168  			     when 'd6' then d6 := cc.sigla;
+169  			     when 'e6' then e6 := cc.sigla;
+170  			     when 'f6' then f6 := cc.sigla;
+171  			     when 'g6' then g6 := cc.sigla;
+172  			     when 'h6' then h6 := cc.sigla;
+173  			     when 'a7' then a7 := cc.sigla;
+174  			     when 'b7' then b7 := cc.sigla;
+175  			     when 'c7' then c7 := cc.sigla;
+176  			     when 'd7' then d7 := cc.sigla;
+177  			     when 'e7' then e7 := cc.sigla;
+178  			     when 'f7' then f7 := cc.sigla;
+179  			     when 'g7' then g7 := cc.sigla;
+180  			     when 'h7' then h7 := cc.sigla;
+181  			     when 'a8' then a8 := cc.sigla;
+182  			     when 'b8' then b8 := cc.sigla;
+183  			     when 'c8' then c8 := cc.sigla;
+184  			     when 'd8' then d8 := cc.sigla;
+185  			     when 'e8' then e8 := cc.sigla;
+186  			     when 'f8' then f8 := cc.sigla;
+187  			     when 'g8' then g8 := cc.sigla;
+188  			     when 'h8' then h8 := cc.sigla;
+189  		     end case;
+190  	     end loop;
+191  	     end;
+192  	     -- imprimir resultados
+193  	     dbms_output.put_line(chr(13));
+194  	     if i > 1 then
+195  		     dbms_output.put_line('.  Partida Numero: '||num_partida);
+196  		     dbms_output.put_line(rpad('.  Blancas: '||jugador1, 42, ' ')||lpad('Negras: '||jugador2, 42, ' '));
+197  		     dbms_output.put_line(rpad('.  Movimientos realizados: '||movimiento, 42, ' ')||lpad('Mueven: '||mueven, 42, ' '));
+198  		     dbms_output.put_line(chr(13));
+199  		     dbms_output.put_line(rpad('.  -',84,'-'));
+200  		     dbms_output.put_line('.  | 	|	  |	    |	      | 	|	  |	    |	      |');
+201  		     dbms_output.put_line('8  |    '||a8||'    |    '||b8||'	|    '||c8||'	 |    '||d8||'	  |    '||e8||'    |	'||f8||'    |	 '||g8||'    |	  '||h8||'    |');
+202  		     dbms_output.put_line('.  | 	|	  |	    |	      | 	|	  |	    |	      |');
+203  		     dbms_output.put_line(rpad('.  -',84,'-'));
+204  		     dbms_output.put_line('.  | 	|	  |	    |	      | 	|	  |	    |	      |');
+205  		     dbms_output.put_line('7  |    '||a7||'    |    '||b7||'	|    '||c7||'	 |    '||d7||'	  |    '||e7||'    |	'||f7||'    |	 '||g7||'    |	  '||h7||'    |');
+206  		     dbms_output.put_line('.  | 	|	  |	    |	      | 	|	  |	    |	      |');
+207  		     dbms_output.put_line(rpad('.  -',84,'-'));
+208  		     dbms_output.put_line('.  | 	|	  |	    |	      | 	|	  |	    |	      |');
+209  		     dbms_output.put_line('6  |    '||a6||'    |    '||b6|| '	 |    '||c6|| '    |	'||d6|| '    |	  '||e6|| '    |    '||f6|| '	 |    '||g6|| '    |	'||h6|| '    |	  ');
+210  		     dbms_output.put_line('.  | 	|	  |	    |	      | 	|	  |	    |	      |');
+211  		     dbms_output.put_line(rpad('.  -',84,'-'));
+212  		     dbms_output.put_line('.  | 	|	  |	    |	      | 	|	  |	    |	      |');
+213  		     dbms_output.put_line('5  |    '||a5||'    |    '||b5|| '	 |    '||c5|| '    |	'||d5|| '    |	  '||e5|| '    |    '||f5|| '	 |    '||g5|| '    |	'||h5|| '    |	  ');
+214  		     dbms_output.put_line('.  | 	|	  |	    |	      | 	|	  |	    |	      |');
+215  		     dbms_output.put_line(rpad('.  -',84,'-'));
+216  		     dbms_output.put_line('.  | 	|	  |	    |	      | 	|	  |	    |	      |');
+217  		     dbms_output.put_line('4  |    '||a4|| '	|    '||b4|| '	  |    '||c4|| '    |	 '||d4|| '    |    '||e4|| '	|    '||f4|| '	  |    '||g4|| '    |	 '||h4|| '    |    ');
+218  		     dbms_output.put_line('.  | 	|	  |	    |	      | 	|	  |	    |	      |');
+219  		     dbms_output.put_line(rpad('.  -',84,'-'));
+220  		     dbms_output.put_line('.  | 	|	  |	    |	      | 	|	  |	    |	      |');
+221  		     dbms_output.put_line('3  |    '||a3|| '	|    '||b3|| '	  |    '||c3|| '    |	 '||d3|| '    |    '||e3|| '	|    '||f3|| '	  |    '||g3|| '    |	 '||h3|| '    |    ');
+222  		     dbms_output.put_line('.  | 	|	  |	    |	      | 	|	  |	    |	      |');
+223  		     dbms_output.put_line(rpad('.  -',84,'-'));
+224  		     dbms_output.put_line('.  | 	|	  |	    |	      | 	|	  |	    |	      |');
+225  		     dbms_output.put_line('2  |    '||a2|| '	|    '||b2|| '	  |    '||c2|| '    |	 '||d2|| '    |    '||e2|| '	|    '||f2|| '	  |    '||g2|| '    |	 '||h2|| '    |    ');
+226  		     dbms_output.put_line('.  | 	|	  |	    |	      | 	|	  |	    |	      |');
+227  		     dbms_output.put_line(rpad('.  -',84,'-'));
+228  		     dbms_output.put_line('.  | 	|	  |	    |	      | 	|	  |	    |	      |');
+229  		     dbms_output.put_line('1  |    '||a1|| '	|    '||b1|| '	  |    '||c1|| '    |	 '||d1|| '    |    '||e1|| '	|    '||f1|| '	  |    '||g1|| '    |	 '||h1|| '    |    ');
+230  		     dbms_output.put_line('.  | 	|	  |	    |	      | 	|	  |	    |	      |');
+231  		     dbms_output.put_line(rpad('.  -',84,'-'));
+232  		     dbms_output.put_line('.	   A	     B	       C	 D	   E	     F	       F	 H');
+233  	     else
+234  		     dbms_output.put_line('La partida ingresada no existe');
+235  	     end if;
+236  exception
+237  	     when others then
+238  		     dbms_output.put_line(chr(13));
+239  		     dbms_output.put_line('Debe ingresar un numero...'||SQLCODE||' detalle: '||SQLERRM);
+240  end;
+241  /
+
+                                                                                                   
+.  Partida Numero: 42                                                                               
+.  Blancas: FERNANDA GRANADOS ARIAS                     Negras: ROGER RETANA MCNALLY                
+.  Movimientos realizados: 0                                         Mueven: Blancas                
+
+                                                                                                   
+.  ---------------------------------------------------------------------------------                
+.  |         |         |         |         |         |         |         |         |                
+8  |    t    |    c    |    a    |    r    |    d    |    a    |    c    |    d    |                
+.  |         |         |         |         |         |         |         |         |                
+.  ---------------------------------------------------------------------------------                
+.  |         |         |         |         |         |         |         |         |                
+7  |    p    |    p    |    p    |    p    |    p    |    p    |    p    |    p    |                
+.  |         |         |         |         |         |         |         |         |                
+.  ---------------------------------------------------------------------------------                
+.  |         |         |         |         |         |         |         |         |                
+6  |         |         |         |         |         |         |         |         |                
+.  |         |         |         |         |         |         |         |         |                
+.  ---------------------------------------------------------------------------------                
+.  |         |         |         |         |         |         |         |         |                
+5  |         |         |         |         |         |         |         |         |                
+.  |         |         |         |         |         |         |         |         |                
+.  ---------------------------------------------------------------------------------                
+.  |         |         |         |         |         |         |         |         |                
+4  |         |         |         |         |         |         |         |         |                
+.  |         |         |         |         |         |         |         |         |                
+.  ---------------------------------------------------------------------------------                
+.  |         |         |         |         |         |         |         |         |                
+3  |         |         |         |         |         |         |         |         |                
+.  |         |         |         |         |         |         |         |         |                
+.  ---------------------------------------------------------------------------------                
+.  |         |         |         |         |         |         |         |         |                
+2  |    P    |    P    |    P    |    P    |    P    |    P    |    P    |    P    |                
+.  |         |         |         |         |         |         |         |         |                
+.  ---------------------------------------------------------------------------------                
+.  |         |         |         |         |         |         |         |         |                
+1  |    T    |    C    |    A    |    R    |    D    |    A    |    C    |    T    |                
+.  |         |         |         |         |         |         |         |         |                
+.  ---------------------------------------------------------------------------------                
+.       A         B         C         D         E         F         F         H                     
+
+PL/SQL procedure successfully completed.
+
+SQL> spool off

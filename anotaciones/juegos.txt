@@ -1,0 +1,111 @@
+.   Movimientos de la partida 362
+
+.   numero movimiento   movimiento de   descripcion movimiento
+.   -----------------   -------------   ----------------------
+.                   1         Blancas                    Cg1f3
+.                   2          Negras                    pd7d5
+.                   3         Blancas                    Pe2e3
+.                   4          Negras                    cb8a6
+.                   5         Blancas                   Af1b5+
+.                   6          Negras                    pc7c6
+.                   7         Blancas                  Ab5a6xc
+.                   8          Negras                  pb7a6xA
+.                   9         Blancas                      0-0
+.                  10          Negras                    cg8f6
+.                  11         Blancas                    Pd2d3
+.                  12          Negras                    ph7h5
+.                  13         Blancas                    Pc2c4
+.                  14          Negras                    pe7e6
+.                  15         Blancas                    Cf3e5
+.                  16          Negras                    th8h6
+.                  17         Blancas                  Ce5c6xp
+.                  18          Negras                    dd8d7
+.                  19         Blancas                    Cc6e5
+.                  20          Negras                  pd5c4xP
+.                  21         Blancas                  Ce5d7xd
+.                  22          Negras                  ac8d7xC
+.                  23         Blancas                    Dd1f3
+.                  24          Negras                    0-0-0
+.                  25         Blancas                   Df3a8+
+.                  26          Negras                    rc8c7
+.                  27         Blancas                 Da8a7xp+
+.                  28          Negras                    rc7d6
+.                  29         Blancas                  Da7c5++
+
+.   Movimientos de la partida 481 contra la computadora
+
+.   numero movimiento   movimiento de   descripcion movimiento
+.   -----------------   -------------   ----------------------
+.                   1         Blancas                    Cg1f3
+.                   2          Negras                    cb8c6
+.                   3         Blancas                    Pd2d4
+.                   4          Negras                    cg8f6
+.                   5         Blancas                    Pd4d5
+.                   6          Negras                    cc6a5
+.                   7         Blancas                    Pb2b4
+.                   8          Negras                    ca5c4
+.                   9         Blancas                    Pe2e4
+.                  10          Negras                    pb7b5
+.                  11         Blancas                  Af1c4xc
+.                  12          Negras                  pb5c4xA
+.                  13         Blancas                    Pe4e5
+.                  14          Negras                    cf6g4
+.                  15         Blancas                    Dd1d4
+.                  16          Negras                    pf7f5
+.                  17         Blancas                  Dd4c4xp
+.                  18          Negras                    pe7e6
+.                  19         Blancas                  Pd5e6xp
+.                  20          Negras                  pd7e6xP
+.                  21         Blancas                    Ph2h3
+.                  22          Negras                    cg4h6
+.                  23         Blancas                    Cf3d4
+.                  24          Negras                    ac8b7
+.                  25         Blancas                  Cd4e6xp
+.                  26          Negras                    dd8e7
+.                  27         Blancas                 Ce6c7xp+
+.                  28          Negras                    re8d8
+.                  29         Blancas                    Ac1g5
+.                  30          Negras                  de7g5xA
+.                  31         Blancas                   Cc7e6+
+.                  32          Negras                    rd8e8
+.                  33         Blancas                  Ce6g5xd
+.                  34          Negras                    ta8c8
+.                  35         Blancas                   Dc4b5+
+.                  36          Negras                    ab7c6
+.                  37         Blancas                    Db5a6
+.                  38          Negras                    ac6d7
+.                  39         Blancas                    Pe5e6
+.                  40          Negras                 af8b4xP+
+.                  41         Blancas                    Pc2c3
+.                  42          Negras                    ab4c5
+.                  43         Blancas                    Da6b7
+.                  44          Negras                    re8f8
+.                  45         Blancas                  Pe6d7xa
+.                  46          Negras                    tc8d8
+.                  47         Blancas                   Cg5e6+
+.                  48          Negras                    rf8g8
+.                  49         Blancas                  Ce6d8xt
+.                  50          Negras                    ch6f7
+.                  51         Blancas                    Db7d5
+.                  52          Negras                    ac5b6
+.                  53         Blancas                Dd5f7xc++
+
+
+.   Movimientos de la partida 442
+
+.   numero movimiento   movimiento de   descripcion movimiento
+.   -----------------   -------------   ----------------------
+.                   1         Blancas                    Cg1f3
+.                   2          Negras                    cb8c6
+.                   3         Blancas                    Pc2c4
+.                   4          Negras                    pd7d5
+.                   5         Blancas                  Pc4d5xp
+.                   6          Negras                    pe7e5
+.                   7         Blancas                  Pd5c6xc
+.                   8          Negras                    pe5e4
+.                   9         Blancas                  Pc6b7xp
+.                  10          Negras                  pe4f3xC
+.                  11         Blancas                Pb7a8xt=D
+.                  12          Negras                  pf3g2xP
+.                  13         Blancas                    Pb2b4
+.                  14          Negras              pg2f1xA=d++

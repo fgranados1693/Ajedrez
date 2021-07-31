@@ -1,0 +1,478 @@
+SQL> start insertPartidas
+SQL> /*
+SQL> Ingreso de partidas
+SQL> */
+SQL> SET SERVEROUTPUT ON
+SQL> set verify OFF
+SQL> column partida format a9;
+SQL> column jugador1 format a47;
+SQL> column jugador2 format a47;
+SQL> set pages 160
+SQL> set linesize 400
+SQL> DECLARE
+  2  	     apodo1 jugadores.nickname%type;
+  3  	     apodo2 jugadores.nickname%type;
+  4  	     partida partidas.id_partida%type;
+  5  	     null_value exception;
+  6  	     pragma exception_init(null_value, -1400);
+  7  	     jugadorNoExiste   exception;
+  8  	     pragma exception_init(jugadorNoExiste  , -02291);
+  9  	     largo_texto exception;
+ 10  	     pragma exception_init(largo_texto, -6502);
+ 11  	     --jugardor_no_existe exception;
+ 12  	     --pragma exception_init(convertion_error, -2291);
+ 13  BEGIN
+ 14  	     apodo1 := upper('&nickname1');
+ 15  	     apodo2 := upper('&nickname2');
+ 16  	     -- se inserta el nickname de ambos jugadores
+ 17  	     insert into partidas (nickname1, nickname2) values (apodo1,apodo2);
+ 18  	     -- se carga el id de la partida creada
+ 19  	     select
+ 20  		     max(id_partida)
+ 21  	     into partida
+ 22  	     from partidas;
+ 23  	     -- se agrega el texto de salida
+ 24  	     dbms_output.put_line(chr(13));
+ 25  	     dbms_output.put_line('La inforamcion se ha cargado satisfactoriamente, y se muestra a continuacion...');
+ 26  	     dbms_output.put_line(chr(13));
+ 27  	     dbms_output.put_line('N Partida   Jugador 1					 Jugador 2					');
+ 28  	     dbms_output.put_line('_________   _______________________________________________	 _______________________________________________');
+ 29  	     declare
+ 30  		     cursor c_partida is
+ 31  		     select
+ 32  			     (select (nombre||' '||apellido1||' '||apellido2)
+ 33  			     from jugadores where nickname = apodo1) as jugador1,
+ 34  			     (select (nombre||' '||apellido1||' '||apellido2)
+ 35  			     from jugadores where nickname = apodo2) as jugador2,
+ 36  			     fecha_inicio
+ 37  		     from partidas
+ 38  		     where id_partida = partida;
+ 39  	     begin
+ 40  		     for part in c_partida loop
+ 41  			     dbms_output.put_line(rpad(partida,12,' ')||rpad(part.jugador1,50,' ')||rpad(part.jugador2,50,' '));
+ 42  		     end loop;
+ 43  	     end;
+ 44  EXCEPTION
+ 45  	     when null_value then
+ 46  		     dbms_output.put_line(chr(13));
+ 47  		     DBMS_OUTPUT.PUT_LINE('Debe ingresar el nickname de cada jugador, igual como se ingreso al crearlo ');
+ 48  	     when jugadorNoExiste   then
+ 49  		     dbms_output.put_line(chr(13));
+ 50  		     DBMS_OUTPUT.PUT_LINE('Uno o ambos jugadores no han sido creados');
+ 51  	     when largo_texto then
+ 52  		     dbms_output.put_line(chr(13));
+ 53  		     DBMS_OUTPUT.PUT_LINE('El texto que intenta ingresar es muy largo, por favor ingrese uno mas corto.');
+ 54  	     when others then
+ 55  		     dbms_output.put_line(chr(13));
+ 56  		     DBMS_OUTPUT.PUT_LINE('Error de Oracle: '||SQLCODE||' detalle: '||SQLERRM );
+ 57  END;
+ 58  /
+Enter value for nickname1: 
+Enter value for nickname2: 
+
+                                                                                                                                                                                                                                                                                                                                                                                                               
+Debe ingresar el nickname de cada jugador, igual como se ingreso al crearlo                                                                                                                                                                                                                                                                                                                                     
+
+PL/SQL procedure successfully completed.
+
+SQL> start insertPartidas
+SQL> /*
+SQL> Ingreso de partidas
+SQL> */
+SQL> SET SERVEROUTPUT ON
+SQL> set verify OFF
+SQL> column partida format a9;
+SQL> column jugador1 format a47;
+SQL> column jugador2 format a47;
+SQL> set pages 160
+SQL> set linesize 400
+SQL> DECLARE
+  2  	     apodo1 jugadores.nickname%type;
+  3  	     apodo2 jugadores.nickname%type;
+  4  	     partida partidas.id_partida%type;
+  5  	     null_value exception;
+  6  	     pragma exception_init(null_value, -1400);
+  7  	     jugadorNoExiste   exception;
+  8  	     pragma exception_init(jugadorNoExiste  , -02291);
+  9  	     largo_texto exception;
+ 10  	     pragma exception_init(largo_texto, -6502);
+ 11  	     --jugardor_no_existe exception;
+ 12  	     --pragma exception_init(convertion_error, -2291);
+ 13  BEGIN
+ 14  	     apodo1 := upper('&nickname1');
+ 15  	     apodo2 := upper('&nickname2');
+ 16  	     -- se inserta el nickname de ambos jugadores
+ 17  	     insert into partidas (nickname1, nickname2) values (apodo1,apodo2);
+ 18  	     -- se carga el id de la partida creada
+ 19  	     select
+ 20  		     max(id_partida)
+ 21  	     into partida
+ 22  	     from partidas;
+ 23  	     -- se agrega el texto de salida
+ 24  	     dbms_output.put_line(chr(13));
+ 25  	     dbms_output.put_line('La inforamcion se ha cargado satisfactoriamente, y se muestra a continuacion...');
+ 26  	     dbms_output.put_line(chr(13));
+ 27  	     dbms_output.put_line('N Partida   Jugador 1					 Jugador 2					');
+ 28  	     dbms_output.put_line('_________   _______________________________________________	 _______________________________________________');
+ 29  	     declare
+ 30  		     cursor c_partida is
+ 31  		     select
+ 32  			     (select (nombre||' '||apellido1||' '||apellido2)
+ 33  			     from jugadores where nickname = apodo1) as jugador1,
+ 34  			     (select (nombre||' '||apellido1||' '||apellido2)
+ 35  			     from jugadores where nickname = apodo2) as jugador2,
+ 36  			     fecha_inicio
+ 37  		     from partidas
+ 38  		     where id_partida = partida;
+ 39  	     begin
+ 40  		     for part in c_partida loop
+ 41  			     dbms_output.put_line(rpad(partida,12,' ')||rpad(part.jugador1,50,' ')||rpad(part.jugador2,50,' '));
+ 42  		     end loop;
+ 43  	     end;
+ 44  EXCEPTION
+ 45  	     when null_value then
+ 46  		     dbms_output.put_line(chr(13));
+ 47  		     DBMS_OUTPUT.PUT_LINE('Debe ingresar el nickname de cada jugador, igual como se ingreso al crearlo ');
+ 48  	     when jugadorNoExiste   then
+ 49  		     dbms_output.put_line(chr(13));
+ 50  		     DBMS_OUTPUT.PUT_LINE('Uno o ambos jugadores no han sido creados');
+ 51  	     when largo_texto then
+ 52  		     dbms_output.put_line(chr(13));
+ 53  		     DBMS_OUTPUT.PUT_LINE('El texto que intenta ingresar es muy largo, por favor ingrese uno mas corto.');
+ 54  	     when others then
+ 55  		     dbms_output.put_line(chr(13));
+ 56  		     DBMS_OUTPUT.PUT_LINE('Error de Oracle: '||SQLCODE||' detalle: '||SQLERRM );
+ 57  END;
+ 58  /
+Enter value for nickname1: rrr
+Enter value for nickname2: eef
+
+                                                                                                                                                                                                                                                                                                                                                                                                               
+Uno o ambos jugadores no han sido creados                                                                                                                                                                                                                                                                                                                                                                       
+
+PL/SQL procedure successfully completed.
+
+SQL> start insertPartidas
+SQL> /*
+SQL> Ingreso de partidas
+SQL> */
+SQL> SET SERVEROUTPUT ON
+SQL> set verify OFF
+SQL> column partida format a9;
+SQL> column jugador1 format a47;
+SQL> column jugador2 format a47;
+SQL> set pages 160
+SQL> set linesize 400
+SQL> DECLARE
+  2  	     apodo1 jugadores.nickname%type;
+  3  	     apodo2 jugadores.nickname%type;
+  4  	     partida partidas.id_partida%type;
+  5  	     null_value exception;
+  6  	     pragma exception_init(null_value, -1400);
+  7  	     jugadorNoExiste   exception;
+  8  	     pragma exception_init(jugadorNoExiste  , -02291);
+  9  	     largo_texto exception;
+ 10  	     pragma exception_init(largo_texto, -6502);
+ 11  	     --jugardor_no_existe exception;
+ 12  	     --pragma exception_init(convertion_error, -2291);
+ 13  BEGIN
+ 14  	     apodo1 := upper('&nickname1');
+ 15  	     apodo2 := upper('&nickname2');
+ 16  	     -- se inserta el nickname de ambos jugadores
+ 17  	     insert into partidas (nickname1, nickname2) values (apodo1,apodo2);
+ 18  	     -- se carga el id de la partida creada
+ 19  	     select
+ 20  		     max(id_partida)
+ 21  	     into partida
+ 22  	     from partidas;
+ 23  	     -- se agrega el texto de salida
+ 24  	     dbms_output.put_line(chr(13));
+ 25  	     dbms_output.put_line('La inforamcion se ha cargado satisfactoriamente, y se muestra a continuacion...');
+ 26  	     dbms_output.put_line(chr(13));
+ 27  	     dbms_output.put_line('N Partida   Jugador 1					 Jugador 2					');
+ 28  	     dbms_output.put_line('_________   _______________________________________________	 _______________________________________________');
+ 29  	     declare
+ 30  		     cursor c_partida is
+ 31  		     select
+ 32  			     (select (nombre||' '||apellido1||' '||apellido2)
+ 33  			     from jugadores where nickname = apodo1) as jugador1,
+ 34  			     (select (nombre||' '||apellido1||' '||apellido2)
+ 35  			     from jugadores where nickname = apodo2) as jugador2,
+ 36  			     fecha_inicio
+ 37  		     from partidas
+ 38  		     where id_partida = partida;
+ 39  	     begin
+ 40  		     for part in c_partida loop
+ 41  			     dbms_output.put_line(rpad(partida,12,' ')||rpad(part.jugador1,50,' ')||rpad(part.jugador2,50,' '));
+ 42  		     end loop;
+ 43  	     end;
+ 44  EXCEPTION
+ 45  	     when null_value then
+ 46  		     dbms_output.put_line(chr(13));
+ 47  		     DBMS_OUTPUT.PUT_LINE('Debe ingresar el nickname de cada jugador, igual como se ingreso al crearlo ');
+ 48  	     when jugadorNoExiste   then
+ 49  		     dbms_output.put_line(chr(13));
+ 50  		     DBMS_OUTPUT.PUT_LINE('Uno o ambos jugadores no han sido creados');
+ 51  	     when largo_texto then
+ 52  		     dbms_output.put_line(chr(13));
+ 53  		     DBMS_OUTPUT.PUT_LINE('El texto que intenta ingresar es muy largo, por favor ingrese uno mas corto.');
+ 54  	     when others then
+ 55  		     dbms_output.put_line(chr(13));
+ 56  		     DBMS_OUTPUT.PUT_LINE('Error de Oracle: '||SQLCODE||' detalle: '||SQLERRM );
+ 57  END;
+ 58  /
+Enter value for nickname1: 
+Enter value for nickname2: hhh
+
+                                                                                                                                                                                                                                                                                                                                                                                                               
+Debe ingresar el nickname de cada jugador, igual como se ingreso al crearlo                                                                                                                                                                                                                                                                                                                                     
+
+PL/SQL procedure successfully completed.
+
+SQL> start insertPartidas
+SQL> /*
+SQL> Ingreso de partidas
+SQL> */
+SQL> SET SERVEROUTPUT ON
+SQL> set verify OFF
+SQL> column partida format a9;
+SQL> column jugador1 format a47;
+SQL> column jugador2 format a47;
+SQL> set pages 160
+SQL> set linesize 400
+SQL> DECLARE
+  2  	     apodo1 jugadores.nickname%type;
+  3  	     apodo2 jugadores.nickname%type;
+  4  	     partida partidas.id_partida%type;
+  5  	     null_value exception;
+  6  	     pragma exception_init(null_value, -1400);
+  7  	     jugadorNoExiste   exception;
+  8  	     pragma exception_init(jugadorNoExiste  , -02291);
+  9  	     largo_texto exception;
+ 10  	     pragma exception_init(largo_texto, -6502);
+ 11  	     --jugardor_no_existe exception;
+ 12  	     --pragma exception_init(convertion_error, -2291);
+ 13  BEGIN
+ 14  	     apodo1 := upper('&nickname1');
+ 15  	     apodo2 := upper('&nickname2');
+ 16  	     -- se inserta el nickname de ambos jugadores
+ 17  	     insert into partidas (nickname1, nickname2) values (apodo1,apodo2);
+ 18  	     -- se carga el id de la partida creada
+ 19  	     select
+ 20  		     max(id_partida)
+ 21  	     into partida
+ 22  	     from partidas;
+ 23  	     -- se agrega el texto de salida
+ 24  	     dbms_output.put_line(chr(13));
+ 25  	     dbms_output.put_line('La inforamcion se ha cargado satisfactoriamente, y se muestra a continuacion...');
+ 26  	     dbms_output.put_line(chr(13));
+ 27  	     dbms_output.put_line('N Partida   Jugador 1					 Jugador 2					');
+ 28  	     dbms_output.put_line('_________   _______________________________________________	 _______________________________________________');
+ 29  	     declare
+ 30  		     cursor c_partida is
+ 31  		     select
+ 32  			     (select (nombre||' '||apellido1||' '||apellido2)
+ 33  			     from jugadores where nickname = apodo1) as jugador1,
+ 34  			     (select (nombre||' '||apellido1||' '||apellido2)
+ 35  			     from jugadores where nickname = apodo2) as jugador2,
+ 36  			     fecha_inicio
+ 37  		     from partidas
+ 38  		     where id_partida = partida;
+ 39  	     begin
+ 40  		     for part in c_partida loop
+ 41  			     dbms_output.put_line(rpad(partida,12,' ')||rpad(part.jugador1,50,' ')||rpad(part.jugador2,50,' '));
+ 42  		     end loop;
+ 43  	     end;
+ 44  EXCEPTION
+ 45  	     when null_value then
+ 46  		     dbms_output.put_line(chr(13));
+ 47  		     DBMS_OUTPUT.PUT_LINE('Debe ingresar el nickname de cada jugador, igual como se ingreso al crearlo ');
+ 48  	     when jugadorNoExiste   then
+ 49  		     dbms_output.put_line(chr(13));
+ 50  		     DBMS_OUTPUT.PUT_LINE('Uno o ambos jugadores no han sido creados');
+ 51  	     when largo_texto then
+ 52  		     dbms_output.put_line(chr(13));
+ 53  		     DBMS_OUTPUT.PUT_LINE('El texto que intenta ingresar es muy largo, por favor ingrese uno mas corto.');
+ 54  	     when others then
+ 55  		     dbms_output.put_line(chr(13));
+ 56  		     DBMS_OUTPUT.PUT_LINE('Error de Oracle: '||SQLCODE||' detalle: '||SQLERRM );
+ 57  END;
+ 58  /
+Enter value for nickname1: rrm
+Enter value for nickname2: mml
+
+                                                                                                                                                                                                                                                                                                                                                                                                               
+La inforamcion se ha cargado satisfactoriamente, y se muestra a continuacion...                                                                                                                                                                                                                                                                                                                                 
+
+                                                                                                                                                                                                                                                                                                                                                                                                               
+N Partida   Jugador 1                                         Jugador 2                                                                                                                                                                                                                                                                                                                                         
+_________   _______________________________________________   _______________________________________________                                                                                                                                                                                                                                                                                                   
+28          ROGER RETANA MCNALLY                              MARIO MARTINEZ LANUZA                                                                                                                                                                                                                                                                                                                             
+
+PL/SQL procedure successfully completed.
+
+SQL> start insertPartidas
+SQL> /*
+SQL> Ingreso de partidas
+SQL> */
+SQL> SET SERVEROUTPUT ON
+SQL> set verify OFF
+SQL> column partida format a9;
+SQL> column jugador1 format a47;
+SQL> column jugador2 format a47;
+SQL> set pages 160
+SQL> set linesize 400
+SQL> DECLARE
+  2  	     apodo1 jugadores.nickname%type;
+  3  	     apodo2 jugadores.nickname%type;
+  4  	     partida partidas.id_partida%type;
+  5  	     null_value exception;
+  6  	     pragma exception_init(null_value, -1400);
+  7  	     jugadorNoExiste   exception;
+  8  	     pragma exception_init(jugadorNoExiste  , -02291);
+  9  	     largo_texto exception;
+ 10  	     pragma exception_init(largo_texto, -6502);
+ 11  	     --jugardor_no_existe exception;
+ 12  	     --pragma exception_init(convertion_error, -2291);
+ 13  BEGIN
+ 14  	     apodo1 := upper('&nickname1');
+ 15  	     apodo2 := upper('&nickname2');
+ 16  	     -- se inserta el nickname de ambos jugadores
+ 17  	     insert into partidas (nickname1, nickname2) values (apodo1,apodo2);
+ 18  	     -- se carga el id de la partida creada
+ 19  	     select
+ 20  		     max(id_partida)
+ 21  	     into partida
+ 22  	     from partidas;
+ 23  	     -- se agrega el texto de salida
+ 24  	     dbms_output.put_line(chr(13));
+ 25  	     dbms_output.put_line('La inforamcion se ha cargado satisfactoriamente, y se muestra a continuacion...');
+ 26  	     dbms_output.put_line(chr(13));
+ 27  	     dbms_output.put_line('N Partida   Jugador 1					 Jugador 2					');
+ 28  	     dbms_output.put_line('_________   _______________________________________________	 _______________________________________________');
+ 29  	     declare
+ 30  		     cursor c_partida is
+ 31  		     select
+ 32  			     (select (nombre||' '||apellido1||' '||apellido2)
+ 33  			     from jugadores where nickname = apodo1) as jugador1,
+ 34  			     (select (nombre||' '||apellido1||' '||apellido2)
+ 35  			     from jugadores where nickname = apodo2) as jugador2,
+ 36  			     fecha_inicio
+ 37  		     from partidas
+ 38  		     where id_partida = partida;
+ 39  	     begin
+ 40  		     for part in c_partida loop
+ 41  			     dbms_output.put_line(rpad(partida,12,' ')||rpad(part.jugador1,50,' ')||rpad(part.jugador2,50,' '));
+ 42  		     end loop;
+ 43  	     end;
+ 44  EXCEPTION
+ 45  	     when null_value then
+ 46  		     dbms_output.put_line(chr(13));
+ 47  		     DBMS_OUTPUT.PUT_LINE('Debe ingresar el nickname de cada jugador, igual como se ingreso al crearlo ');
+ 48  	     when jugadorNoExiste   then
+ 49  		     dbms_output.put_line(chr(13));
+ 50  		     DBMS_OUTPUT.PUT_LINE('Uno o ambos jugadores no han sido creados');
+ 51  	     when largo_texto then
+ 52  		     dbms_output.put_line(chr(13));
+ 53  		     DBMS_OUTPUT.PUT_LINE('El texto que intenta ingresar es muy largo, por favor ingrese uno mas corto.');
+ 54  	     when others then
+ 55  		     dbms_output.put_line(chr(13));
+ 56  		     DBMS_OUTPUT.PUT_LINE('Error de Oracle: '||SQLCODE||' detalle: '||SQLERRM );
+ 57  END;
+ 58  /
+Enter value for nickname1: fga
+Enter value for nickname2: rrm
+
+                                                                                                                                                                                                                                                                                                                                                                                                               
+La inforamcion se ha cargado satisfactoriamente, y se muestra a continuacion...                                                                                                                                                                                                                                                                                                                                 
+
+                                                                                                                                                                                                                                                                                                                                                                                                               
+N Partida   Jugador 1                                         Jugador 2                                                                                                                                                                                                                                                                                                                                         
+_________   _______________________________________________   _______________________________________________                                                                                                                                                                                                                                                                                                   
+29          FERNANDA GRANADOS ARIAS                           ROGER RETANA MCNALLY                                                                                                                                                                                                                                                                                                                              
+
+PL/SQL procedure successfully completed.
+
+SQL> start insertPartidas
+SQL> /*
+SQL> Ingreso de partidas
+SQL> */
+SQL> SET SERVEROUTPUT ON
+SQL> set verify OFF
+SQL> column partida format a9;
+SQL> column jugador1 format a47;
+SQL> column jugador2 format a47;
+SQL> set pages 160
+SQL> set linesize 400
+SQL> DECLARE
+  2  	     apodo1 jugadores.nickname%type;
+  3  	     apodo2 jugadores.nickname%type;
+  4  	     partida partidas.id_partida%type;
+  5  	     null_value exception;
+  6  	     pragma exception_init(null_value, -1400);
+  7  	     jugadorNoExiste   exception;
+  8  	     pragma exception_init(jugadorNoExiste  , -02291);
+  9  	     largo_texto exception;
+ 10  	     pragma exception_init(largo_texto, -6502);
+ 11  	     --jugardor_no_existe exception;
+ 12  	     --pragma exception_init(convertion_error, -2291);
+ 13  BEGIN
+ 14  	     apodo1 := upper('&nickname1');
+ 15  	     apodo2 := upper('&nickname2');
+ 16  	     -- se inserta el nickname de ambos jugadores
+ 17  	     insert into partidas (nickname1, nickname2) values (apodo1,apodo2);
+ 18  	     -- se carga el id de la partida creada
+ 19  	     select
+ 20  		     max(id_partida)
+ 21  	     into partida
+ 22  	     from partidas;
+ 23  	     -- se agrega el texto de salida
+ 24  	     dbms_output.put_line(chr(13));
+ 25  	     dbms_output.put_line('La inforamcion se ha cargado satisfactoriamente, y se muestra a continuacion...');
+ 26  	     dbms_output.put_line(chr(13));
+ 27  	     dbms_output.put_line('N Partida   Jugador 1					 Jugador 2					');
+ 28  	     dbms_output.put_line('_________   _______________________________________________	 _______________________________________________');
+ 29  	     declare
+ 30  		     cursor c_partida is
+ 31  		     select
+ 32  			     (select (nombre||' '||apellido1||' '||apellido2)
+ 33  			     from jugadores where nickname = apodo1) as jugador1,
+ 34  			     (select (nombre||' '||apellido1||' '||apellido2)
+ 35  			     from jugadores where nickname = apodo2) as jugador2,
+ 36  			     fecha_inicio
+ 37  		     from partidas
+ 38  		     where id_partida = partida;
+ 39  	     begin
+ 40  		     for part in c_partida loop
+ 41  			     dbms_output.put_line(rpad(partida,12,' ')||rpad(part.jugador1,50,' ')||rpad(part.jugador2,50,' '));
+ 42  		     end loop;
+ 43  	     end;
+ 44  EXCEPTION
+ 45  	     when null_value then
+ 46  		     dbms_output.put_line(chr(13));
+ 47  		     DBMS_OUTPUT.PUT_LINE('Debe ingresar el nickname de cada jugador, igual como se ingreso al crearlo ');
+ 48  	     when jugadorNoExiste   then
+ 49  		     dbms_output.put_line(chr(13));
+ 50  		     DBMS_OUTPUT.PUT_LINE('Uno o ambos jugadores no han sido creados');
+ 51  	     when largo_texto then
+ 52  		     dbms_output.put_line(chr(13));
+ 53  		     DBMS_OUTPUT.PUT_LINE('El texto que intenta ingresar es muy largo, por favor ingrese uno mas corto.');
+ 54  	     when others then
+ 55  		     dbms_output.put_line(chr(13));
+ 56  		     DBMS_OUTPUT.PUT_LINE('Error de Oracle: '||SQLCODE||' detalle: '||SQLERRM );
+ 57  END;
+ 58  /
+Enter value for nickname1: mml
+Enter value for nickname2: fga
+
+                                                                                                                                                                                                                                                                                                                                                                                                               
+La inforamcion se ha cargado satisfactoriamente, y se muestra a continuacion...                                                                                                                                                                                                                                                                                                                                 
+
+                                                                                                                                                                                                                                                                                                                                                                                                               
+N Partida   Jugador 1                                         Jugador 2                                                                                                                                                                                                                                                                                                                                         
+_________   _______________________________________________   _______________________________________________                                                                                                                                                                                                                                                                                                   
+30          MARIO MARTINEZ LANUZA                             FERNANDA GRANADOS ARIAS                                                                                                                                                                                                                                                                                                                           
+
+PL/SQL procedure successfully completed.
+
+SQL> spool off

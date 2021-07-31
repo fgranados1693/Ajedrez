@@ -1,0 +1,437 @@
+SQL> start insertJugadores
+SQL> /*
+SQL> Ingreso de jugadores a la table jugadores
+SQL> */
+SQL> set verify OFF
+SQL> column nickname format a18;
+SQL> column nombre format a18;
+SQL> column apellido1 format a18;
+SQL> column apellido2 format a18;
+SQL> SET SERVEROUTPUT ON
+SQL> DECLARE
+  2  	     apodo jugadores.nickname%type;
+  3  	     vnombre jugadores.nombre%type;
+  4  	     apellido_1 jugadores.apellido1%type;
+  5  	     apellido_2 jugadores.apellido2%type;
+  6  	     null_value exception;
+  7  	     pragma exception_init(null_value, -1400);
+  8  	     largo_texto exception;
+  9  	     pragma exception_init(largo_texto, -6502);
+ 10  BEGIN
+ 11  	     -- captura de variables lexicas
+ 12  	     apodo := upper('&nickname');
+ 13  	     vnombre := upper('&nombre');
+ 14  	     apellido_1 := upper('&apellido');
+ 15  	     apellido_2 := upper('&apellido2');
+ 16  	     -- se carga la informacion en la tabla jugadores
+ 17  	     insert into jugadores values (apodo,vnombre,apellido_1,apellido_2);
+ 18  	     -- encabezado de el texto de salida
+ 19  	     dbms_output.put_line(chr(13));
+ 20  	     dbms_output.put_line('La inforamcion se ha cargado satisfactoriamente, y se muestra a continuacion...');
+ 21  	     dbms_output.put_line(chr(13));
+ 22  	     dbms_output.put_line('Nickname	     Nombre	       Primer apellido	 Segundo apellido');
+ 23  	     dbms_output.put_line('_______________   _______________   _______________	 ________________');
+ 24  	     -- se crea un cursor para cargar la informacion ingresada a la tabla jugadores
+ 25  	     declare
+ 26  		     cursor jugadores is
+ 27  		     select
+ 28  		     nickname,
+ 29  		     nombre,
+ 30  		     apellido1,
+ 31  		     apellido2
+ 32  		     from jugadores
+ 33  		     where nickname = apodo;
+ 34  	     begin
+ 35  		     for jug in jugadores loop
+ 36  		     dbms_output.put_line(rpad(jug.nickname, 18, ' ')||rpad(jug.nombre, 18, ' ')||rpad(jug.apellido1, 18, ' ')||rpad(jug.apellido2, 19, ' '));
+ 37  	     end loop;
+ 38  	     end;
+ 39  EXCEPTION
+ 40  	     when dup_val_on_index then
+ 41  	     dbms_output.put_line(chr(13));
+ 42  		     DBMS_OUTPUT.PUT_LINE('Ya existe un jugador con ese nickname: por favor ingrese otro');
+ 43  	     when null_value then
+ 44  		     dbms_output.put_line(chr(13));
+ 45  		     DBMS_OUTPUT.PUT_LINE('Solamente el segundo apellido puede ser nulo, por favor ingrese la informacion solicitada ');
+ 46  	     when largo_texto then
+ 47  		     dbms_output.put_line(chr(13));
+ 48  		     DBMS_OUTPUT.PUT_LINE('El texto que intenta ingresar es muy largo, por favor ingrese uno mas corto.');
+ 49  	     when others then
+ 50  		     dbms_output.put_line(chr(13));
+ 51  		     DBMS_OUTPUT.PUT_LINE('Error de Oracle: '||SQLCODE||' - '||SQLERRM );
+ 52  END;
+ 53  /
+Enter value for nickname: 
+Enter value for nombre: 
+Enter value for apellido: 
+Enter value for apellido2: 
+                                                                                         
+Solamente el segundo apellido puede ser nulo, por favor ingrese la informacion solicitada 
+
+PL/SQL procedure successfully completed.
+
+SQL> start insertJugadores
+SQL> /*
+SQL> Ingreso de jugadores a la table jugadores
+SQL> */
+SQL> set verify OFF
+SQL> column nickname format a18;
+SQL> column nombre format a18;
+SQL> column apellido1 format a18;
+SQL> column apellido2 format a18;
+SQL> SET SERVEROUTPUT ON
+SQL> DECLARE
+  2  	     apodo jugadores.nickname%type;
+  3  	     vnombre jugadores.nombre%type;
+  4  	     apellido_1 jugadores.apellido1%type;
+  5  	     apellido_2 jugadores.apellido2%type;
+  6  	     null_value exception;
+  7  	     pragma exception_init(null_value, -1400);
+  8  	     largo_texto exception;
+  9  	     pragma exception_init(largo_texto, -6502);
+ 10  BEGIN
+ 11  	     -- captura de variables lexicas
+ 12  	     apodo := upper('&nickname');
+ 13  	     vnombre := upper('&nombre');
+ 14  	     apellido_1 := upper('&apellido');
+ 15  	     apellido_2 := upper('&apellido2');
+ 16  	     -- se carga la informacion en la tabla jugadores
+ 17  	     insert into jugadores values (apodo,vnombre,apellido_1,apellido_2);
+ 18  	     -- encabezado de el texto de salida
+ 19  	     dbms_output.put_line(chr(13));
+ 20  	     dbms_output.put_line('La inforamcion se ha cargado satisfactoriamente, y se muestra a continuacion...');
+ 21  	     dbms_output.put_line(chr(13));
+ 22  	     dbms_output.put_line('Nickname	     Nombre	       Primer apellido	 Segundo apellido');
+ 23  	     dbms_output.put_line('_______________   _______________   _______________	 ________________');
+ 24  	     -- se crea un cursor para cargar la informacion ingresada a la tabla jugadores
+ 25  	     declare
+ 26  		     cursor jugadores is
+ 27  		     select
+ 28  		     nickname,
+ 29  		     nombre,
+ 30  		     apellido1,
+ 31  		     apellido2
+ 32  		     from jugadores
+ 33  		     where nickname = apodo;
+ 34  	     begin
+ 35  		     for jug in jugadores loop
+ 36  		     dbms_output.put_line(rpad(jug.nickname, 18, ' ')||rpad(jug.nombre, 18, ' ')||rpad(jug.apellido1, 18, ' ')||rpad(jug.apellido2, 19, ' '));
+ 37  	     end loop;
+ 38  	     end;
+ 39  EXCEPTION
+ 40  	     when dup_val_on_index then
+ 41  	     dbms_output.put_line(chr(13));
+ 42  		     DBMS_OUTPUT.PUT_LINE('Ya existe un jugador con ese nickname: por favor ingrese otro');
+ 43  	     when null_value then
+ 44  		     dbms_output.put_line(chr(13));
+ 45  		     DBMS_OUTPUT.PUT_LINE('Solamente el segundo apellido puede ser nulo, por favor ingrese la informacion solicitada ');
+ 46  	     when largo_texto then
+ 47  		     dbms_output.put_line(chr(13));
+ 48  		     DBMS_OUTPUT.PUT_LINE('El texto que intenta ingresar es muy largo, por favor ingrese uno mas corto.');
+ 49  	     when others then
+ 50  		     dbms_output.put_line(chr(13));
+ 51  		     DBMS_OUTPUT.PUT_LINE('Error de Oracle: '||SQLCODE||' - '||SQLERRM );
+ 52  END;
+ 53  /
+Enter value for nickname: 
+Enter value for nombre: mario
+Enter value for apellido: martinez
+Enter value for apellido2: 
+                                                                                         
+Solamente el segundo apellido puede ser nulo, por favor ingrese la informacion solicitada 
+
+PL/SQL procedure successfully completed.
+
+SQL> start insertJugadores
+SQL> /*
+SQL> Ingreso de jugadores a la table jugadores
+SQL> */
+SQL> set verify OFF
+SQL> column nickname format a18;
+SQL> column nombre format a18;
+SQL> column apellido1 format a18;
+SQL> column apellido2 format a18;
+SQL> SET SERVEROUTPUT ON
+SQL> DECLARE
+  2  	     apodo jugadores.nickname%type;
+  3  	     vnombre jugadores.nombre%type;
+  4  	     apellido_1 jugadores.apellido1%type;
+  5  	     apellido_2 jugadores.apellido2%type;
+  6  	     null_value exception;
+  7  	     pragma exception_init(null_value, -1400);
+  8  	     largo_texto exception;
+  9  	     pragma exception_init(largo_texto, -6502);
+ 10  BEGIN
+ 11  	     -- captura de variables lexicas
+ 12  	     apodo := upper('&nickname');
+ 13  	     vnombre := upper('&nombre');
+ 14  	     apellido_1 := upper('&apellido');
+ 15  	     apellido_2 := upper('&apellido2');
+ 16  	     -- se carga la informacion en la tabla jugadores
+ 17  	     insert into jugadores values (apodo,vnombre,apellido_1,apellido_2);
+ 18  	     -- encabezado de el texto de salida
+ 19  	     dbms_output.put_line(chr(13));
+ 20  	     dbms_output.put_line('La inforamcion se ha cargado satisfactoriamente, y se muestra a continuacion...');
+ 21  	     dbms_output.put_line(chr(13));
+ 22  	     dbms_output.put_line('Nickname	     Nombre	       Primer apellido	 Segundo apellido');
+ 23  	     dbms_output.put_line('_______________   _______________   _______________	 ________________');
+ 24  	     -- se crea un cursor para cargar la informacion ingresada a la tabla jugadores
+ 25  	     declare
+ 26  		     cursor jugadores is
+ 27  		     select
+ 28  		     nickname,
+ 29  		     nombre,
+ 30  		     apellido1,
+ 31  		     apellido2
+ 32  		     from jugadores
+ 33  		     where nickname = apodo;
+ 34  	     begin
+ 35  		     for jug in jugadores loop
+ 36  		     dbms_output.put_line(rpad(jug.nickname, 18, ' ')||rpad(jug.nombre, 18, ' ')||rpad(jug.apellido1, 18, ' ')||rpad(jug.apellido2, 19, ' '));
+ 37  	     end loop;
+ 38  	     end;
+ 39  EXCEPTION
+ 40  	     when dup_val_on_index then
+ 41  	     dbms_output.put_line(chr(13));
+ 42  		     DBMS_OUTPUT.PUT_LINE('Ya existe un jugador con ese nickname: por favor ingrese otro');
+ 43  	     when null_value then
+ 44  		     dbms_output.put_line(chr(13));
+ 45  		     DBMS_OUTPUT.PUT_LINE('Solamente el segundo apellido puede ser nulo, por favor ingrese la informacion solicitada ');
+ 46  	     when largo_texto then
+ 47  		     dbms_output.put_line(chr(13));
+ 48  		     DBMS_OUTPUT.PUT_LINE('El texto que intenta ingresar es muy largo, por favor ingrese uno mas corto.');
+ 49  	     when others then
+ 50  		     dbms_output.put_line(chr(13));
+ 51  		     DBMS_OUTPUT.PUT_LINE('Error de Oracle: '||SQLCODE||' - '||SQLERRM );
+ 52  END;
+ 53  /
+Enter value for nickname: xxx
+Enter value for nombre: 
+Enter value for apellido: mart
+Enter value for apellido2: 
+                                                                                         
+Solamente el segundo apellido puede ser nulo, por favor ingrese la informacion solicitada 
+
+PL/SQL procedure successfully completed.
+
+SQL> start insertJugadores
+SQL> /*
+SQL> Ingreso de jugadores a la table jugadores
+SQL> */
+SQL> set verify OFF
+SQL> column nickname format a18;
+SQL> column nombre format a18;
+SQL> column apellido1 format a18;
+SQL> column apellido2 format a18;
+SQL> SET SERVEROUTPUT ON
+SQL> DECLARE
+  2  	     apodo jugadores.nickname%type;
+  3  	     vnombre jugadores.nombre%type;
+  4  	     apellido_1 jugadores.apellido1%type;
+  5  	     apellido_2 jugadores.apellido2%type;
+  6  	     null_value exception;
+  7  	     pragma exception_init(null_value, -1400);
+  8  	     largo_texto exception;
+  9  	     pragma exception_init(largo_texto, -6502);
+ 10  BEGIN
+ 11  	     -- captura de variables lexicas
+ 12  	     apodo := upper('&nickname');
+ 13  	     vnombre := upper('&nombre');
+ 14  	     apellido_1 := upper('&apellido');
+ 15  	     apellido_2 := upper('&apellido2');
+ 16  	     -- se carga la informacion en la tabla jugadores
+ 17  	     insert into jugadores values (apodo,vnombre,apellido_1,apellido_2);
+ 18  	     -- encabezado de el texto de salida
+ 19  	     dbms_output.put_line(chr(13));
+ 20  	     dbms_output.put_line('La inforamcion se ha cargado satisfactoriamente, y se muestra a continuacion...');
+ 21  	     dbms_output.put_line(chr(13));
+ 22  	     dbms_output.put_line('Nickname	     Nombre	       Primer apellido	 Segundo apellido');
+ 23  	     dbms_output.put_line('_______________   _______________   _______________	 ________________');
+ 24  	     -- se crea un cursor para cargar la informacion ingresada a la tabla jugadores
+ 25  	     declare
+ 26  		     cursor jugadores is
+ 27  		     select
+ 28  		     nickname,
+ 29  		     nombre,
+ 30  		     apellido1,
+ 31  		     apellido2
+ 32  		     from jugadores
+ 33  		     where nickname = apodo;
+ 34  	     begin
+ 35  		     for jug in jugadores loop
+ 36  		     dbms_output.put_line(rpad(jug.nickname, 18, ' ')||rpad(jug.nombre, 18, ' ')||rpad(jug.apellido1, 18, ' ')||rpad(jug.apellido2, 19, ' '));
+ 37  	     end loop;
+ 38  	     end;
+ 39  EXCEPTION
+ 40  	     when dup_val_on_index then
+ 41  	     dbms_output.put_line(chr(13));
+ 42  		     DBMS_OUTPUT.PUT_LINE('Ya existe un jugador con ese nickname: por favor ingrese otro');
+ 43  	     when null_value then
+ 44  		     dbms_output.put_line(chr(13));
+ 45  		     DBMS_OUTPUT.PUT_LINE('Solamente el segundo apellido puede ser nulo, por favor ingrese la informacion solicitada ');
+ 46  	     when largo_texto then
+ 47  		     dbms_output.put_line(chr(13));
+ 48  		     DBMS_OUTPUT.PUT_LINE('El texto que intenta ingresar es muy largo, por favor ingrese uno mas corto.');
+ 49  	     when others then
+ 50  		     dbms_output.put_line(chr(13));
+ 51  		     DBMS_OUTPUT.PUT_LINE('Error de Oracle: '||SQLCODE||' - '||SQLERRM );
+ 52  END;
+ 53  /
+Enter value for nickname: xxx
+Enter value for nombre: mario
+Enter value for apellido: 
+Enter value for apellido2: 
+                                                                                         
+Solamente el segundo apellido puede ser nulo, por favor ingrese la informacion solicitada 
+
+PL/SQL procedure successfully completed.
+
+SQL> start insertJugadores
+SQL> /*
+SQL> Ingreso de jugadores a la table jugadores
+SQL> */
+SQL> set verify OFF
+SQL> column nickname format a18;
+SQL> column nombre format a18;
+SQL> column apellido1 format a18;
+SQL> column apellido2 format a18;
+SQL> SET SERVEROUTPUT ON
+SQL> DECLARE
+  2  	     apodo jugadores.nickname%type;
+  3  	     vnombre jugadores.nombre%type;
+  4  	     apellido_1 jugadores.apellido1%type;
+  5  	     apellido_2 jugadores.apellido2%type;
+  6  	     null_value exception;
+  7  	     pragma exception_init(null_value, -1400);
+  8  	     largo_texto exception;
+  9  	     pragma exception_init(largo_texto, -6502);
+ 10  BEGIN
+ 11  	     -- captura de variables lexicas
+ 12  	     apodo := upper('&nickname');
+ 13  	     vnombre := upper('&nombre');
+ 14  	     apellido_1 := upper('&apellido');
+ 15  	     apellido_2 := upper('&apellido2');
+ 16  	     -- se carga la informacion en la tabla jugadores
+ 17  	     insert into jugadores values (apodo,vnombre,apellido_1,apellido_2);
+ 18  	     -- encabezado de el texto de salida
+ 19  	     dbms_output.put_line(chr(13));
+ 20  	     dbms_output.put_line('La inforamcion se ha cargado satisfactoriamente, y se muestra a continuacion...');
+ 21  	     dbms_output.put_line(chr(13));
+ 22  	     dbms_output.put_line('Nickname	     Nombre	       Primer apellido	 Segundo apellido');
+ 23  	     dbms_output.put_line('_______________   _______________   _______________	 ________________');
+ 24  	     -- se crea un cursor para cargar la informacion ingresada a la tabla jugadores
+ 25  	     declare
+ 26  		     cursor jugadores is
+ 27  		     select
+ 28  		     nickname,
+ 29  		     nombre,
+ 30  		     apellido1,
+ 31  		     apellido2
+ 32  		     from jugadores
+ 33  		     where nickname = apodo;
+ 34  	     begin
+ 35  		     for jug in jugadores loop
+ 36  		     dbms_output.put_line(rpad(jug.nickname, 18, ' ')||rpad(jug.nombre, 18, ' ')||rpad(jug.apellido1, 18, ' ')||rpad(jug.apellido2, 19, ' '));
+ 37  	     end loop;
+ 38  	     end;
+ 39  EXCEPTION
+ 40  	     when dup_val_on_index then
+ 41  	     dbms_output.put_line(chr(13));
+ 42  		     DBMS_OUTPUT.PUT_LINE('Ya existe un jugador con ese nickname: por favor ingrese otro');
+ 43  	     when null_value then
+ 44  		     dbms_output.put_line(chr(13));
+ 45  		     DBMS_OUTPUT.PUT_LINE('Solamente el segundo apellido puede ser nulo, por favor ingrese la informacion solicitada ');
+ 46  	     when largo_texto then
+ 47  		     dbms_output.put_line(chr(13));
+ 48  		     DBMS_OUTPUT.PUT_LINE('El texto que intenta ingresar es muy largo, por favor ingrese uno mas corto.');
+ 49  	     when others then
+ 50  		     dbms_output.put_line(chr(13));
+ 51  		     DBMS_OUTPUT.PUT_LINE('Error de Oracle: '||SQLCODE||' - '||SQLERRM );
+ 52  END;
+ 53  /
+Enter value for nickname: xxx
+Enter value for nombre: mario
+Enter value for apellido: martinez
+Enter value for apellido2: 
+                                                                                         
+La inforamcion se ha cargado satisfactoriamente, y se muestra a continuacion...           
+                                                                                         
+Nickname          Nombre            Primer apellido   Segundo apellido                    
+_______________   _______________   _______________   ________________                    
+XXX               MARIO             MARTINEZ                                              
+
+PL/SQL procedure successfully completed.
+
+SQL> start insertJugadores
+SQL> /*
+SQL> Ingreso de jugadores a la table jugadores
+SQL> */
+SQL> set verify OFF
+SQL> column nickname format a18;
+SQL> column nombre format a18;
+SQL> column apellido1 format a18;
+SQL> column apellido2 format a18;
+SQL> SET SERVEROUTPUT ON
+SQL> DECLARE
+  2  	     apodo jugadores.nickname%type;
+  3  	     vnombre jugadores.nombre%type;
+  4  	     apellido_1 jugadores.apellido1%type;
+  5  	     apellido_2 jugadores.apellido2%type;
+  6  	     null_value exception;
+  7  	     pragma exception_init(null_value, -1400);
+  8  	     largo_texto exception;
+  9  	     pragma exception_init(largo_texto, -6502);
+ 10  BEGIN
+ 11  	     -- captura de variables lexicas
+ 12  	     apodo := upper('&nickname');
+ 13  	     vnombre := upper('&nombre');
+ 14  	     apellido_1 := upper('&apellido');
+ 15  	     apellido_2 := upper('&apellido2');
+ 16  	     -- se carga la informacion en la tabla jugadores
+ 17  	     insert into jugadores values (apodo,vnombre,apellido_1,apellido_2);
+ 18  	     -- encabezado de el texto de salida
+ 19  	     dbms_output.put_line(chr(13));
+ 20  	     dbms_output.put_line('La inforamcion se ha cargado satisfactoriamente, y se muestra a continuacion...');
+ 21  	     dbms_output.put_line(chr(13));
+ 22  	     dbms_output.put_line('Nickname	     Nombre	       Primer apellido	 Segundo apellido');
+ 23  	     dbms_output.put_line('_______________   _______________   _______________	 ________________');
+ 24  	     -- se crea un cursor para cargar la informacion ingresada a la tabla jugadores
+ 25  	     declare
+ 26  		     cursor jugadores is
+ 27  		     select
+ 28  		     nickname,
+ 29  		     nombre,
+ 30  		     apellido1,
+ 31  		     apellido2
+ 32  		     from jugadores
+ 33  		     where nickname = apodo;
+ 34  	     begin
+ 35  		     for jug in jugadores loop
+ 36  		     dbms_output.put_line(rpad(jug.nickname, 18, ' ')||rpad(jug.nombre, 18, ' ')||rpad(jug.apellido1, 18, ' ')||rpad(jug.apellido2, 19, ' '));
+ 37  	     end loop;
+ 38  	     end;
+ 39  EXCEPTION
+ 40  	     when dup_val_on_index then
+ 41  	     dbms_output.put_line(chr(13));
+ 42  		     DBMS_OUTPUT.PUT_LINE('Ya existe un jugador con ese nickname: por favor ingrese otro');
+ 43  	     when null_value then
+ 44  		     dbms_output.put_line(chr(13));
+ 45  		     DBMS_OUTPUT.PUT_LINE('Solamente el segundo apellido puede ser nulo, por favor ingrese la informacion solicitada ');
+ 46  	     when largo_texto then
+ 47  		     dbms_output.put_line(chr(13));
+ 48  		     DBMS_OUTPUT.PUT_LINE('El texto que intenta ingresar es muy largo, por favor ingrese uno mas corto.');
+ 49  	     when others then
+ 50  		     dbms_output.put_line(chr(13));
+ 51  		     DBMS_OUTPUT.PUT_LINE('Error de Oracle: '||SQLCODE||' - '||SQLERRM );
+ 52  END;
+ 53  /
+Enter value for nickname: xxx
+Enter value for nombre: ma
+Enter value for apellido: la
+Enter value for apellido2: 
+                                                                                         
+Ya existe un jugador con ese nickname: por favor ingrese otro                             
+
+PL/SQL procedure successfully completed.
+
+SQL> spool off
